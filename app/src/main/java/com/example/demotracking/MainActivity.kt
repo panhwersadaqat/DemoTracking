@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var stepCount: Int = 0
     lateinit var stepCountTextView : TextView
-    private val PERMISSION_REQUEST_CODE = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,30 +29,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         scheduleNotifications()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Permissions are not granted, so request them
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                PERMISSION_REQUEST_CODE
-            )
-        } else {
-            // Permissions are already granted, proceed with your app logic
-            // ...
-        }
-
 
     }
 
@@ -112,26 +87,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             intervalMillis,
             pendingIntent
         )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                grantResults[1] == PackageManager.PERMISSION_GRANTED &&
-                grantResults[2] == PackageManager.PERMISSION_GRANTED
-            ) {
-                // Permissions granted, proceed with your app logic
-                // ...
-            } else {
-                // Permissions denied, handle the situation or notify the user
-                // ...
-            }
-        }
     }
 
 }
